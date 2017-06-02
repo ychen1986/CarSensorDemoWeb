@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style type="text/css">
+            html, body, #map-canvas { height: 100%; width: 100%; margin: 0; padding: 0;}
+            </style>
+        <script src="../../js/lib/jquery.dropotron.min.js"></script>
+        <script src="../../js/lib/config.js"></script>
+        <!--  <script src="../../js/lib/skel.min.js"></script>-->
+        <!--  <script src="../../js/lib/skel-panels.min.js"></script>-->
+        <!-- <script src="../../js/lib/json2.js"></script> -->
+        <script src="../../js/lib/underscore-min.js"></script>
+        <script src="../../js/lib/backbone.js"></script>
+        <script src="../../js/lib/strophe.js"></script>
+        <script src="../../js/lib/sox.strophe.pubsub.js"></script>
+        <script src="../../js/lib/strophe.x.js"></script>
+        <script src="../../js/lib/jscron.js"></script>
+        
+        <script src="../../js/sox/SoxClient.js"></script>
+        <script src="../../js/sox/SoxEventListener.js"></script>
+        <script src="../../js/sox/Device.js"></script>
+        <script src="../../js/sox/Transducer.js"></script>
+        <script src="../../js/sox/SensorData.js"></script>
+        <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key="AIzaSyCJoGKM_SGeZsVf4pUnfxkKj4DTI4kOYxA"">
+        </script>
+        <script type="text/javascript">
+            
+            //global variables ralated to map
+            var map, home;
+            var homeloction = new google.maps.LatLng(35.37799833333333,139.4464733333333);
+            
+            //global variables ralated to sox server
+            var boshService = "http://sox.ht.sfc.keio.ac.jp:5280/http-bind/";
+            var xmppServer = "sox.ht.sfc.keio.ac.jp";
+            var jid = "guest@sox.ht.sfc.keio.ac.jp";
+            var password = "miroguest";
+            
+            google.maps.event.addDomListener(window, 'load', function(){
+                                             //initialization
+                                             initialize();
+                                             subscribe();
+                                             
+                                             });
+
+            /*
+            window.onload = function(){
+                //initialization
+                initialize();
+                subscribe();
+                
+            };*/
+        
+            function subscribe(){
+                var client = new SoxClient(boshService, xmppServer, jid, password);
+                client.unsubscribeAll();
+                
+                var soxEventListener = new SoxEventListener();
+                soxEventListener.connected = function(soxEvent) {
+                    console.log("[main.js] Connected "+soxEvent.soxClient);
+                    status("Connected: "+soxEvent.soxClient);
+                    
+                    var deviceNames = ["FujisawaCarSensor1","FujisawaCarSensor1","FujisawaCarSensor2","FujisawaCarSensor3","FujisawaCarSensor4","FujisawaCarSensor5","FujisawaCarSensor6","FujisawaCarSensor7","FujisawaCarSensor8"];
+                    //		var deviceNames = ["しらすの入荷情報湘南"];
+                    deviceNames.forEach(function(name){
+                                        var device = new Device(name);//デバイス名に_dataや_metaはつけない
+                                        /* クライアントに繋がったら、デバイスにサブスクライブする */
+                                        if(!client.subscribeDevice(device)){
+                                        /* サーバに繋がってない場合などで、要求を送信できなかった場合はfalseが返ってくる */
+                                        //status("Couldn't send subscription request: "+device);
+                                        }
+                                        });
+                };
+                soxEventListener.connectionFailed = function(soxEvent) {
+                    //status("Connection Failed: "+soxEvent.soxClient);
+                };
+                soxEventListener.subscribed = function(soxEvent){
+                    //status("Subscribed: "+soxEvent.device);
+                };
+                soxEventListener.subscriptionFailed = function(soxEvent){
+                    //status("Subscription Failed: "+soxEvent.device);
+                };
+                soxEventListener.metaDataReceived = function(soxEvent){
+                    /**
+                     * SoXサーバからデバイスのメタ情報を受信すると呼ばれる。
+                     * 受信したメタ情報に基づいて、Device内にTransducerインスタンスが生成されている。
+                     */
+                    //status("Meta data received: "+soxEvent.device);
+                };
+                soxEventListener.sensorDataReceived = function(soxEvent){
+                    /**
+                     * SoXサーバからセンサデータを受信すると呼ばれる。
+                     * 受信したデータはTransducerインスタンスにセットされ、そのTransducerがイベントオブジェクトとして渡される。
+                     */
+                    //status("Sensor data received: "+soxEvent.device);
+                    
+                    window.alert('Sensor Data! Received');
+                    /*
+                     if(home.getMap() != null)
+                    {
+                        home.setMap(null);
+                    }else
+                    {
+                        home.setMap(map);
+                    }
+                    */
+                };
+                
+                client.setSoxEventListener(soxEventListener);
+                client.connect();
+            }
+        
+       
+            function initialize() {
+                var homeloction = new google.maps.LatLng(35.37799833333333,139.4464733333333);
+                var mapOptions = {
+                    center: homeloction,
+                    zoom: 12,
+                    disableDefaultUI: true,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    draggable: false
+                };
+                map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
+            
+                home = new google.maps.Marker({
+                                              position: homeloction,
+                                              title:"Enviroment Center!"
+                                              });
+                home.setMap(map);
+        }
+        </script>
+    </head>
+    <body>
+        <div id="map-canvas"></div>
+    </body>
+</html>

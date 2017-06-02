@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Demonstration of Fujisawa Car Sensors</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<meta name="viewport" content="width=1040" />
+        <style>
+            html, body, #map-canvas {
+                height: 100%;
+                width: 100%;
+                margin: 0px;
+                padding: 0px
+            }
+        </style>
+
+		<!--[if lte IE 8]><script src="../../js/html5shiv.js"></script><![endif]-->
+		<script src="../js/lib/jquery-1.10.2.js"></script>
+		<script src="../js/lib/jquery.dropotron.min.js"></script>
+		<script src="../js/lib/config.js"></script>
+		<!--  <script src="../../js/lib/skel.min.js"></script>-->
+		<!--  <script src="../../js/lib/skel-panels.min.js"></script>-->
+		<!-- <script src="../../js/lib/json2.js"></script> -->
+		<script src="../js/lib/underscore-min.js"></script>
+		<script src="../js/lib/backbone.js"></script>
+		<script src="../js/lib/strophe.js"></script>
+		<script src="../js/lib/sox.strophe.pubsub.js"></script>
+		<script src="../js/lib/strophe.x.js"></script>
+		<script src="../js/lib/jscron.js"></script>
+
+		<script src="../js/sox/SoxClient.js"></script>
+		<script src="../js/sox/SoxEventListener.js"></script>
+		<script src="../js/sox/Device.js"></script>
+		<script src="../js/sox/Transducer.js"></script>
+		<script src="../js/sox/SensorData.js"></script>
+        <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key="AIzaSyCJoGKM_SGeZsVf4pUnfxkKj4DTI4kOYxA"">
+            </script>
+
+		<script src="main.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel-noscript.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-desktop.css" />
+		</noscript>
+	</head>
+	<body class="no-sidebar">
+
+		<!-- Header Wrapper -->
+		<!-- Logo -->
+		<!-- h1 id="logo" style="font-weight: 700; font-family: 'Arvo'; color: #ed786a;text-shadow: 0.05em 0.075em 0 rgba(0,0,0,0.1);">Subscribe Multile Devices</h1>
+
+		<!-- Main Wrapper -->
+        <div class="row">
+            <!-- Content -->
+            <div align="justify">
+                
+                <img src="images/home.png"   height="30">: &nbsp; Enviroment  Business  Center &nbsp;&nbsp;&nbsp;&nbsp;
+                <img src="images/recycle.png"  width="18" height="18">: &nbsp; Recycle Center &nbsp;&nbsp;&nbsp;&nbsp;
+                <!--img src="images/datapoint.png"  width="18" height="18">: &nbsp; Data Point &nbsp;&nbsp;&nbsp;&nbsp;-->
+                
+                Lifetime of Data Point:&nbsp;<select id="lifetime">
+                    
+                    <option value = 5> 5 s</option>
+                    <option value = 10 selected> 10 s</option>
+                    <option value = 30 > 30 s</option>
+                    <option value = 60>  1 m</option>
+                    <option value = 600> 10 m</option>
+                    <option value = 1800> 30 m</option>
+                    <option value = 3600>  1 h</option>
+                    <option value = 0> Infinite</option>
+                </select>
+                &nbsp;&nbsp;
+                <button  id="update" type="button">Update</button>
+                <br>
+                PM2.5濃度
+                <svg height="18" width="20">
+                    <circle cx="9" cy="10" r="7" stroke="black" stroke-width="2" fill="DeepSkyBlue" />
+                    Sorry, your browser does not support inline SVG.
+                </svg>:10μg/m<sup>3</sup>以下
+                <svg height="18" width="20">
+                    <circle cx="9" cy="10" r="7" stroke="black" stroke-width="2" fill="Aqua" />
+                    Sorry, your browser does not support inline SVG.
+                </svg>:20μg/m<sup>3</sup>以下
+                <svg height="18" width="20">
+                    <circle cx="9" cy="10" r="7" stroke="black" stroke-width="2" fill="LawnGreen" />
+                    Sorry, your browser does not support inline SVG.
+                    </svg>:35μg/m<sup>3</sup>以下
+                <svg height="18" width="20">
+                    <circle cx="9" cy="10" r="7" stroke="black" stroke-width="2" fill="Yellow" />
+                    Sorry, your browser does not support inline SVG.
+                </svg>:50μg/m<sup>3</sup>以下
+                <svg height="18" width="20">
+                    <circle cx="9" cy="10" r="7" stroke="black" stroke-width="2" fill="GoldenRod" />
+                    Sorry, your browser does not support inline SVG.
+                </svg>:85μg/m<sup>3</sup>以下
+                    <svg height="18" width="20">
+                    <circle cx="9" cy="10" r="7" stroke="black" stroke-width="2" fill="DarkOrange" />
+                    Sorry, your browser does not support inline SVG.
+                    </svg>85μg/m<sup>3</sup>以上
+            </div>
+        </div>
+        
+        <div id="map-canvas"></div>
+		<div id="main-wrapper">
+
+			<!-- Main -->
+			<div id="main" class="container">
+
+				<div class="row">
+					<!-- Content -->
+					<div id="content" class="12u skel-cell-important">
+					</div>
+				</div>
+				<!--div class="row">
+					<!-- Content -->
+					<!--div id="status" class="12u skel-cell-important">
+					</div>
+				</div-->
+			</div>
+		</div>
+	</body>
+</html>
