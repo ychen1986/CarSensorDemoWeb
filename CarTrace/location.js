@@ -375,7 +375,8 @@ window.onload = function() {
         fillOpacity: 1,
         strokeWeight: 0.1,
         scale: 1,
-        rotation: rotation
+        rotation: rotation,
+        
     }
 
             var dataPoint = new google.maps.Marker({position: new google.maps.LatLng(lat, lon),
