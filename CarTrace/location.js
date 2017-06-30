@@ -105,7 +105,7 @@ var northRecycleLocation = new google.maps.LatLng(35.3951, 139.451450);
 var ishinazakaRecycleCenter;
 var ishinazakaRecycleLocation = new google.maps.LatLng(35.350003, 139.468605);
 var lifetime = 10 * 1000;
-var kml = 'http://www.google.com/maps/d/kml?forcekml=1&mid=1cb01NKzS1hHebMKZN92Rjc6uyh8'
+var kml = 'http://www.google.com/maps/d/u/0/kml?forcekml=1&mid=1LYe5Gv-WU_uLB0OzDgzx7CqFo2U'
 var scale = 5 ;
 
 
@@ -130,8 +130,17 @@ function initialize() {
     // Load kml layer, i.e., the boundaries of Fujisawa city
     var fujisawaKML = new google.maps.KmlLayer({
                                                url: kml,
-                                               map: map
+                                               map: map,
+                                               preserveViewport: true
                                                });
+    
+    fujisawaKML.addListener('click', function(kmlEvent) {
+                        // Repalce the content of infowindow with the name of the clicked place
+                        kmlEvent.featureData.infoWindowHtml=kmlEvent.featureData.name;
+                         });
+    
+    
+
     
     
     // Initialize home and recycle centers
