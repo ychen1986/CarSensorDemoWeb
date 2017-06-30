@@ -341,7 +341,7 @@ window.onload = function() {
                                             }
                                      });
         
-        msg = (collectedDate.toLocaleString()) + "<p>センサー番号:"+soxEvent.device.name+"<br>所属: "+affilitation + "," +carNo
+        msg = (collectedDate.toString()) + "<p>センサー番号:"+soxEvent.device.name+"<br>所属: "+affilitation + "," +carNo
         + "<br>" +"lat:"+lat+",lon:"+lon+"<br>速度:"+speed+"km/h"+",方向:"+course+"&#176";
         +"</p>"
         + msg;
