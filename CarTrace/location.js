@@ -1,10 +1,101 @@
+/**
+ *  Sox server configuration
+ */
 var boshService = "http://nictsox-lv2.ht.sfc.keio.ac.jp:5280/http-bind/";
 var xmppServer = "nictsox-lv2.ht.sfc.keio.ac.jp";
-
 var jid = "htcarsensor@sox.ht.sfc.keio.ac.jp";
 var password = "carsensor";
+var deviceNames = ["carsensor001",
+                   "carsensor002",
+                   "carsensor003",
+                   "carsensor004",
+                   "carsensor005",
+                   "carsensor006",
+                   "carsensor007",
+                   "carsensor008",
+                   "carsensor009",
+                   "carsensor010",
+                   "carsensor011",
+                   "carsensor012",
+                   "carsensor013",
+                   "carsensor014",
+                   "carsensor015",
+                   "carsensor016",
+                   "carsensor017",
+                   "carsensor018",
+                   "carsensor019",
+                   "carsensor020",
+                   "carsensor021",
+                   "carsensor022",
+                   "carsensor023",
+                   "carsensor024",
+                   "carsensor025",
+                   "carsensor026",
+                   "carsensor027",
+                   "carsensor028",
+                   "carsensor029",
+                   "carsensor030",
+                   "carsensor031",
+                   "carsensor032",
+                   "carsensor033",
+                   "carsensor034",
+                   "carsensor035",
+                   "carsensor036",
+                   "carsensor037",
+                   "carsensor038",
+                   "carsensor039",
+                   "carsensor040",
+                   "carsensor041",
+                   "carsensor042",
+                   "carsensor043",
+                   "carsensor044",
+                   "carsensor045",
+                   "carsensor046",
+                   "carsensor047",
+                   "carsensor048",
+                   "carsensor049",
+                   "carsensor050",
+                   "carsensor051",
+                   "carsensor052",
+                   "carsensor053",
+                   "carsensor054",
+                   "carsensor055",
+                   "carsensor056",
+                   "carsensor057",
+                   "carsensor058",
+                   "carsensor059",
+                   "carsensor060",
+                   "carsensor061",
+                   "carsensor062",
+                   "carsensor063",
+                   "carsensor064",
+                   "carsensor065",
+                   "carsensor066",
+                   "carsensor067",
+                   "carsensor068",
+                   "carsensor069",
+                   "carsensor070",
+                   "carsensor071",
+                   "carsensor072",
+                   "carsensor073",
+                   "carsensor074",
+                   "carsensor075",
+                   "carsensor076",
+                   "carsensor077",
+                   "carsensor078",
+                   "carsensor079",
+                   "carsensor080",
+                   "carsensor081",
+                   "carsensor082",
+                   "carsensor083",
+                   "carsensor084",
+                   "carsensor085"];
 
 
+
+/**
+ *  Map Configuration
+ */
 var map;
 var markers =[];
 var home;
@@ -14,10 +105,15 @@ var northRecycleLocation = new google.maps.LatLng(35.3951, 139.451450);
 var ishinazakaRecycleCenter;
 var ishinazakaRecycleLocation = new google.maps.LatLng(35.350003, 139.468605);
 var lifetime = 10 * 1000;
-//var lifetime = 10 *1000;
-//var internal = 10 * 1000;
-//var opacityScale = internal * 1.0 / lifetime ;
+var kml = 'http://www.google.com/maps/d/kml?forcekml=1&mid=1cb01NKzS1hHebMKZN92Rjc6uyh8'
 var scale = 5 ;
+
+
+
+
+/**
+ *  Map Initialization
+ */
 function initialize() {
     // Initialize map
     var mapOptions = {
@@ -30,6 +126,13 @@ function initialize() {
 
     var mapDiv = document.getElementById('map-canvas');
     map = new google.maps.Map(mapDiv, mapOptions);
+    
+    // Load kml layer, i.e., the boundaries of Fujisawa city
+    var fujisawaKML = new google.maps.KmlLayer({
+                                               url: kml,
+                                               map: map
+                                               });
+    
     
     // Initialize home and recycle centers
     var homeIGM = {
@@ -63,10 +166,8 @@ function initialize() {
                                   home.infowindow.open(map,home);
                                   });
     
-    
-    
-    
-    /*var imgNRC = {
+
+       /*var imgNRC = {
     url:'images/recycle.png',
     size: new google.maps.Size(34,34),
     //origin: new google.maps.Point(0,0),
@@ -146,10 +247,12 @@ function initialize() {
 
 
 
-
+/**
+ *
+ */
 window.onload = function() {
-	//$("#content").html("<span>hoge</span>");
 	
+    // Connect to sox servers
 	var client = new SoxClient(boshService, xmppServer);
 	client.unsubscribeAll();
 	
@@ -158,91 +261,7 @@ window.onload = function() {
 		console.log("[main.js] Connected "+soxEvent.soxClient);
 		status("Connected: "+soxEvent.soxClient);
 		
-		var deviceNames = ["carsensor001",
-"carsensor002",
-"carsensor003",
-"carsensor004",
-"carsensor005",
-"carsensor006",
-"carsensor007",
-"carsensor008",
-"carsensor009",
-"carsensor010",
-"carsensor011",
-"carsensor012",
-"carsensor013",
-"carsensor014",
-"carsensor015",
-"carsensor016",
-"carsensor017",
-"carsensor018",
-"carsensor019",
-"carsensor020",
-"carsensor021",
-"carsensor022",
-"carsensor023",
-"carsensor024",
-"carsensor025",
-"carsensor026",
-"carsensor027",
-"carsensor028",
-"carsensor029",
-"carsensor030",
-"carsensor031",
-"carsensor032",
-"carsensor033",
-"carsensor034",
-"carsensor035",
-"carsensor036",
-"carsensor037",
-"carsensor038",
-"carsensor039",
-"carsensor040",
-"carsensor041",
-"carsensor042",
-"carsensor043",
-"carsensor044",
-"carsensor045",
-"carsensor046",
-"carsensor047",
-"carsensor048",
-"carsensor049",
-"carsensor050",
-"carsensor051",
-"carsensor052",
-"carsensor053",
-"carsensor054",
-"carsensor055",
-"carsensor056",
-"carsensor057",
-"carsensor058",
-"carsensor059",
-"carsensor060",
-"carsensor061",
-"carsensor062",
-"carsensor063",
-"carsensor064",
-"carsensor065",
-"carsensor066",
-"carsensor067",
-"carsensor068",
-"carsensor069",
-"carsensor070",
-"carsensor071",
-"carsensor072",
-"carsensor073",
-"carsensor074",
-"carsensor075",
-"carsensor076",
-"carsensor077",
-"carsensor078",
-"carsensor079",
-"carsensor080",
-"carsensor081",
-"carsensor082",
-"carsensor083",
-"carsensor084",
-"carsensor085"];
+
 //		var deviceNames = ["しらすの入荷情報湘南"];
 		deviceNames.forEach(function(name){
 			var device = new Device(name);//デバイス名に_dataや_metaはつけない
@@ -344,29 +363,6 @@ window.onload = function() {
                 
             
             }
-            
-	    
-            
-//            if (rotation < 180){
-//                image = {
-//                //path: "M23,51a5,5,0,1,0-5-5A5,5,0,0,0,23,51ZM11.23,63H23V19H0V52Q5.63,57.47,11.23,63ZM5,5.17Q7.68,2.6,10.34,0H23V19H5ZM23,15.81a5,5,0,1,0-5-5A5,5,0,0,0,23,15.81Z",
-//                //url:'data:image/svg+xml;utf-8, \ <svg xmlns="http://www.w3.org/2000/svg" width="31.5" height="31.5" viewBox="0 0 14 31.5" fill="'+ color  + '" stroke="black" stroke-width="1" transform="rotate(' + rotation + ' 15.75 15.75)"><path d="M11.5,25.5A2.5,2.5,0,1,0,9,23,2.5,2.5,0,0,0,11.5,25.5Zm-5.89,6H11.5V9.5H0V26ZM2.5,2.59,5.17,0H11.5V9.5h-9Zm9,5.32A2.5,2.5,0,1,0,9,5.4,2.5,2.5,0,0,0,11.5,7.9Z"/></svg>',
-//                url:'data:image/svg+xml;utf-8, \<svg xmlns="http://www.w3.org/2000/svg" width="68.5" height="68.5" viewBox="0 0 27.5 68.5" fill="'+ color  + '" transform="rotate(' + rotation + ' 34.25 34.25)"> <defs><style>.a{fill:none;}.a,.b,.c,.d{stroke:#000;stroke-miterlimit:10;}.a,.b,.c{stroke-width:0.5px;}.b,.d{fill:#fff;}.d{stroke-width:0.25px;}.e{fill:#ccc;}.f{fill:#006837;}</style></defs><path class="a" d="M26.25,6.25l-2-6h-21l-2,6V18.73c0,2,.21,2.52,1,2.52h23c.79,0,1-.54,1-2.52l0,0v-13"/><rect class="b" x="1.25" y="22.25" width="25" height="7"/><rect class="a" x="1.25" y="29.25" width="25" height="39"/><polygon class="c" points="1.25 41.25 0.25 43.25 0.25 46.25 1.25 47.82 1.25 41.25"/><polygon class="c" points="26.25 41.25 27.25 43.25 27.25 46.25 26.25 47.82 26.25 41.25"/><polyline class="c" points="1.25 9.25 0.25 11.25 0.25 14.25 1.25 15.82"/><polygon class="c" points="26.25 9.25 27.25 11.25 27.25 14.25 26.25 15.82 26.25 9.25"/><rect class="d" x="3.25" y="6.25" width="21" height="14" rx="0.13" ry="0.13"/><polyline class="e" points="3.25 6.25 4.25 1.75 23.25 1.75 24.25 6.25"/><path class="b" d="M13.25,22.25v0Z"/><path class="b" d="M7.25,22.25v0Z"/><path class="b" d="M19.25,22.25v0Z"/><path class="f" d="M10.07,45.69l.81.49c.14,0,.2-.06.2-.17a.76.76,0,0,0-.1-.3L9.2,42.37l-3.94.1a.25.25,0,0,0-.26.28s.06.1.17.17l.82.49-.87,1.35a1.94,1.94,0,0,0-.36,1,1.55,1.55,0,0,0,.24.76l2.68,4.68a4,4,0,0,1-.1-.84A2.54,2.54,0,0,1,8,48.9l2-3.21Z"/><path class="f" d="M11.1,43l2.21-3.43q-1.24-2.83-2.63-2.83a1.22,1.22,0,0,0-1.13.47L7.46,40.52,11.1,43Z"/><path class="f" d="M9.3,52.25h4.27V47.81H9.45a15,15,0,0,0-.95,1.47,2.72,2.72,0,0,0-.31,1.25q0,1.72,1.11,1.72Z"/><path class="f" d="M18.09,42.15l1.9-3.2a.69.69,0,0,0,.1-.35q0-.22-.14-.22l-.19.07-.87.4-.79-1.57A2.13,2.13,0,0,0,16,36.22H11a3.93,3.93,0,0,1,1.23.54A6.5,6.5,0,0,1,13.8,39l1,2.07-.73.35a.19.19,0,0,0-.11.19c0,.12.08.19.23.2l3.91.31Z"/><path class="f" d="M20,51.58l2.77-5a3.09,3.09,0,0,1-1.33.94,5.46,5.46,0,0,1-1.65.19H16.69v-.64q0-.37-.18-.37a.21.21,0,0,0-.19.1l-1.95,3.38,2,3.1c.15.23.28.32.4.28s.17-.09.17-.18V52.29h1.71A1.38,1.38,0,0,0,20,51.58Z"/><path class="f" d="M18.78,47.05h1.84A2.2,2.2,0,0,0,22,46.47a1.67,1.67,0,0,0,.76-1.27,1.08,1.08,0,0,0-.2-.61l-2.19-3.34-3.76,2.19,2.19,3.62Z"/></svg>',
-//                //url: 'data:image/svg+xml;utf-8, \
-//                 //   <svg width="31.5" height="31.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 31.5" fill="'+ color  +'" stroke="black" stroke-width="1" transform="rotate(' + rotation +
-//                 //   ' 15.75 15.75)"><path d="M11.5,25.5A2.5,2.5,0,1,0,9,23,2.5,2.5,0,0,0,11.5,25.5Zm-5.89,6H11.5V9.5H0V26ZM2.5,2.59,5.17,0H11.5V9.5h-9Zm9,5.32A2.5,2.5,0,1,0,9,5.4,2.5,2.5,0,0,0,11.5,7.9Z"</svg>',
-//                anchor: new google.maps.Point(34.25,34.25)
-//                };
-//            }else{
-//                image = {
-//                //path: "M10,46a5,5,0,1,0-5,5A5,5,0,0,0,10,46Zm18,6V19H5V63H16.77Q22.37,57.47,28,52ZM23,19H5V0H17.66Q20.32,2.59,23,5.17ZM10,10.81a5,5,0,1,0-5,5A5,5,0,0,0,10,10.81Z",
-//                url:'data:image/svg+xml;utf-8, \ <svg xmlns="http://www.w3.org/2000/svg" width="31.5" height="31.5" viewBox="0 0 14 31.5" fill="'+ color  + '" stroke="black" stroke-width="1" transform="rotate(' + rotation +
-//                    ' 15.75 15.75)"><path d="M5,23a2.5,2.5,0,1,0-2.5,2.5A2.5,2.5,0,0,0,5,23Zm9,3V9.5H2.5v22H8.39ZM11.5,9.5h-9V0H8.83L11.5,2.59ZM5,5.4A2.5,2.5,0,1,0,2.5,7.9,2.5,2.5,0,0,0,5,5.4Z"/></svg>',
-//                anchor: new google.maps.Point(15.75, 15.75)
-//                };
-//            }
-            
-
 
 	    image = {
         
@@ -402,24 +398,6 @@ window.onload = function() {
                                       }, lifetime * (1.0 - opacity), dataPoint, opacity);
 
                 }
-                
-                /*var timer = window.setInterval(function(){
-                                   var opacity=dataPoint.getOpacity();
-                                   if(opacity > opacityScale){
-                                        dataPoint.setOpacity(opacity-opacityScale);
-                                   }
-                                   else{
-                                
-                                        clearInterval(timer);
-                                   }
-                                   
-                                   },internal,dataPoint,opacityScale,timer);
-                
-                                   };
-                                   
-                */
-                //markers.push(dataPoint);
-
                 window.setTimeout(function(param1){
                                   //var expired = markers.shift();
                                   if(param1 != null){
@@ -450,19 +428,7 @@ window.onload = function() {
 	client.connect();
     initialize();
 };
-/*
-function opacityDecrease(dataPoint,rOpacity){
-    window.setTimeout(function(){
-                      if(dataPoint != null){
-                      var opacity = dataPoint.getOpacity();
-                      console.log("[main.js]:" +"opacity change event is invoked!\n"+
-                                  "Opacity is "+opacity);
-                      dataPoint.setOpacity(opacity - opacityScale);
-                      }
-                      
-                      }, lifetime * (1.0 - rOpacity), dataPoint);
 
-}*/
 
 $(document).ready(function() {
                   $("#update").click(function(){
