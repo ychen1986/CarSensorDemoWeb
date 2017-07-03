@@ -105,7 +105,7 @@ var northRecycleLocation = new google.maps.LatLng(35.3951, 139.451450);
 var ishinazakaRecycleCenter;
 var ishinazakaRecycleLocation = new google.maps.LatLng(35.350003, 139.468605);
 var lifetime = 10 * 1000;
-var kml = 'http://www.google.com/maps/d/u/0/kml?forcekml=1&mid=1LYe5Gv-WU_uLB0OzDgzx7CqFo2U'
+var kml = 'http://nictsox-lv2.ht.sfc.keio.ac.jp/fujisawa.kml'
 var scale = 5 ;
 
 
@@ -131,7 +131,8 @@ function initialize() {
     var fujisawaKML = new google.maps.KmlLayer({
                                                url: kml,
                                                map: map,
-                                               preserveViewport: true
+                                               preserveViewport: true,
+                                               zIndex:0
                                                });
     
     fujisawaKML.addListener('click', function(kmlEvent) {
@@ -341,7 +342,7 @@ window.onload = function() {
                                             }
                                      });
         
-        msg = (collectedDate.toString()) + "<p>センサー番号:"+soxEvent.device.name+"<br>所属: "+affilitation + "," +carNo
+        msg = (collectedDate.toLocaleString()) + "<p>センサー番号:"+soxEvent.device.name+"<br>所属: "+affilitation + "," +carNo
         + "<br>" +"lat:"+lat+",lon:"+lon+"<br>速度:"+speed+"km/h"+",方向:"+course+"&#176";
         +"</p>"
         + msg;
@@ -387,7 +388,7 @@ window.onload = function() {
             var dataPoint = new google.maps.Marker({position: new google.maps.LatLng(lat, lon),
                                                    icon: image,
                                                    clickable: true,
-                                                   title: soxEvent.device.name});
+                                                   title: affilitation + carNo});
             
             dataPoint.setMap(map);
             if(lifetime > 0){
