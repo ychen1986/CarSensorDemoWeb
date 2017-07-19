@@ -120,7 +120,8 @@ function initialize() {
     center: homeloction,
     zoom: 13,
     mapTypeId: google.maps.MapTypeId.ROADMAP,
-    disableDefaultUI: false
+    disableDefaultUI: false,
+    fullscreenControl: true
     //draggable: false
     };
 
