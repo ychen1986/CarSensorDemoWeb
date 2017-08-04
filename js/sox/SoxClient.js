@@ -740,7 +740,7 @@ SoxClient.prototype._processLastPublishedItem = function(node, id, entry, timest
 	entry = entry.toString().replace(/&gt;/g, ">");
 	entry = entry.toString().replace(/&apos;/g, "'");
 
-	var nodeName = node.substring(0, node.indexOf("_"));
+	var nodeName = node.substring(0, node.length-5);
 	if (!this.subscribedDevices[nodeName]) {
 		// we come here if a node is subscribed during the past execution of the
 		// program.
@@ -810,7 +810,7 @@ SoxClient.prototype._processPublishedItem = function(node, id, entry) {
 	if (node.indexOf("_meta") != -1) {
 
 	} else if (node.indexOf("_data") != -1) {
-		var nodeName = node.substring(0, node.indexOf("_"));
+		var nodeName = node.substring(0, node.indexOf("_data"));
 		var updatedTransducers = new Array();
 		var transducerValues = $(entry).find("transducerValue");
 		for (var i = 0; i < transducerValues.length; i++) {
